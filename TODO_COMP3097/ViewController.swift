@@ -11,6 +11,8 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var signInButton: UIButton!
     
+    @IBAction func popUpButton(_ sender: Any) {
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
