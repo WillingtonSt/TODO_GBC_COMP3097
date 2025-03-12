@@ -6,6 +6,17 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		BE24C6802D813A6800AE523F /* List+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE24C67A2D813A6800AE523F /* List+CoreDataClass.swift */; };
+		BE24C6812D813A6800AE523F /* List+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE24C67B2D813A6800AE523F /* List+CoreDataProperties.swift */; };
+		BE24C6822D813A6800AE523F /* Reminder+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE24C67C2D813A6800AE523F /* Reminder+CoreDataClass.swift */; };
+		BE24C6832D813A6800AE523F /* Task+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE24C67E2D813A6800AE523F /* Task+CoreDataClass.swift */; };
+		BE24C6842D813A6800AE523F /* Reminder+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE24C67D2D813A6800AE523F /* Reminder+CoreDataProperties.swift */; };
+		BE24C6852D813A6800AE523F /* Task+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE24C67F2D813A6800AE523F /* Task+CoreDataProperties.swift */; };
+		BEA3C4142D80FB700023E628 /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA3C4132D80FB700023E628 /* User+CoreDataProperties.swift */; };
+		BEA3C4152D80FB700023E628 /* User+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA3C4122D80FB700023E628 /* User+CoreDataClass.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		608A92E82D70D1CF00C9D29C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,6 +38,14 @@
 		608A92D12D70D1CD00C9D29C /* TODO_COMP3097.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TODO_COMP3097.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		608A92E72D70D1CF00C9D29C /* TODO_COMP3097Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TODO_COMP3097Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		608A92F12D70D1CF00C9D29C /* TODO_COMP3097UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TODO_COMP3097UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BE24C67A2D813A6800AE523F /* List+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "List+CoreDataClass.swift"; path = "TODO_COMP3097/List+CoreDataClass.swift"; sourceTree = "<group>"; };
+		BE24C67B2D813A6800AE523F /* List+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "List+CoreDataProperties.swift"; path = "TODO_COMP3097/List+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		BE24C67C2D813A6800AE523F /* Reminder+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Reminder+CoreDataClass.swift"; path = "TODO_COMP3097/Reminder+CoreDataClass.swift"; sourceTree = "<group>"; };
+		BE24C67D2D813A6800AE523F /* Reminder+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Reminder+CoreDataProperties.swift"; path = "TODO_COMP3097/Reminder+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		BE24C67E2D813A6800AE523F /* Task+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Task+CoreDataClass.swift"; path = "TODO_COMP3097/Task+CoreDataClass.swift"; sourceTree = "<group>"; };
+		BE24C67F2D813A6800AE523F /* Task+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Task+CoreDataProperties.swift"; path = "TODO_COMP3097/Task+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		BEA3C4122D80FB700023E628 /* User+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "User+CoreDataClass.swift"; path = "TODO_COMP3097/User+CoreDataClass.swift"; sourceTree = "<group>"; };
+		BEA3C4132D80FB700023E628 /* User+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "User+CoreDataProperties.swift"; path = "TODO_COMP3097/User+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -88,6 +107,14 @@
 		608A92C82D70D1CD00C9D29C = {
 			isa = PBXGroup;
 			children = (
+				BE24C67A2D813A6800AE523F /* List+CoreDataClass.swift */,
+				BE24C67B2D813A6800AE523F /* List+CoreDataProperties.swift */,
+				BE24C67C2D813A6800AE523F /* Reminder+CoreDataClass.swift */,
+				BE24C67D2D813A6800AE523F /* Reminder+CoreDataProperties.swift */,
+				BE24C67E2D813A6800AE523F /* Task+CoreDataClass.swift */,
+				BE24C67F2D813A6800AE523F /* Task+CoreDataProperties.swift */,
+				BEA3C4122D80FB700023E628 /* User+CoreDataClass.swift */,
+				BEA3C4132D80FB700023E628 /* User+CoreDataProperties.swift */,
 				608A92D32D70D1CD00C9D29C /* TODO_COMP3097 */,
 				608A92EA2D70D1CF00C9D29C /* TODO_COMP3097Tests */,
 				608A92F42D70D1CF00C9D29C /* TODO_COMP3097UITests */,
@@ -249,6 +276,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BEA3C4142D80FB700023E628 /* User+CoreDataProperties.swift in Sources */,
+				BEA3C4152D80FB700023E628 /* User+CoreDataClass.swift in Sources */,
+				BE24C6802D813A6800AE523F /* List+CoreDataClass.swift in Sources */,
+				BE24C6812D813A6800AE523F /* List+CoreDataProperties.swift in Sources */,
+				BE24C6822D813A6800AE523F /* Reminder+CoreDataClass.swift in Sources */,
+				BE24C6832D813A6800AE523F /* Task+CoreDataClass.swift in Sources */,
+				BE24C6842D813A6800AE523F /* Reminder+CoreDataProperties.swift in Sources */,
+				BE24C6852D813A6800AE523F /* Task+CoreDataProperties.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -294,6 +329,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -321,6 +357,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
