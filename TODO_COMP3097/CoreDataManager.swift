@@ -99,6 +99,63 @@ class CoreDataManager: ObservableObject{
     }
     
     
+    func updateList(id: String, newTitle: String?) -> Bool {
+        let fetchRequest: NSFetchRequest<List> = List.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+        
+        do {
+            let results = try context.fetch(fetchRequest)
+            if let listToUpdate = results.first {
+                if let newTitle = newTitle {
+                    listToUpdate.title = newTitle
+                }
+                try context.save()
+                print("List updated successfully")
+                return true
+            } else {
+                print("List not found")
+                return false
+            }
+        } catch {
+            print("Failed to update list: \(error)")
+            return false
+        }
+    }
+    
+    func fetchListsForCurrentUser(withEmail: String) -> [List] {
+       
+        
+        
+        let fetchRequest: NSFetchRequest<List> = List.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "email.email == %@", withEmail)
+        
+        do {
+            let lists = try container.viewContext.fetch(fetchRequest)
+            return lists
+            
+        } catch {
+            print("Failed to fetch lists for user with email \(withEmail): \(error.localizedDescription)")
+            return []
+        }
+    }
+    
+    func deleteList(withId id: String) {
+        let fetchRequest: NSFetchRequest<List> = List.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+        
+        do {
+            let lists = try container.viewContext.fetch(fetchRequest)
+            if let listToDelete = lists.first {
+                container.viewContext.delete(listToDelete)
+                try container.viewContext.save()
+                print("List deleted successfully")
+            }
+        } catch {
+            print("Failed to delete list: \(error.localizedDescription)")
+        }
+    }
+    
+    
     
     func generateUniqueID() -> String {
         return UUID().uuidString
