@@ -25,6 +25,8 @@ class CoreDataManager: ObservableObject{
     }
     
     
+    
+    
     func saveUser(name: String, email: String, password: String, salt: String){
         let user = User(context: context)
         user.name = name
@@ -70,10 +72,11 @@ class CoreDataManager: ObservableObject{
             let list = List(context: context)
             list.title = title
             list.email = user
-            list.id = generateUniqueID()
+            list.id = generateUniqueID() //assign unique id to list
             let newId = list.id!
             
             do {
+                //try to save new list to Core Data and return the id of the new list 
                 try context.save()
                 return newId
                 
@@ -86,10 +89,12 @@ class CoreDataManager: ObservableObject{
     }
     
     func fetchList(withId: String) -> List? {
+        //create fetch request for list with matching id
         let fetchRequest: NSFetchRequest<List> = List.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id == %@", withId)
         
         do {
+            //fetch list from Core Data and return first list found
             let lists = try context.fetch(fetchRequest)
             return lists.first
         } catch {
@@ -100,15 +105,19 @@ class CoreDataManager: ObservableObject{
     
     
     func updateList(id: String, newTitle: String?) -> Bool {
+        //create fetch request for list with matching id
         let fetchRequest: NSFetchRequest<List> = List.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id == %@", id)
         
         do {
+            //fetch list using fetch request
             let results = try context.fetch(fetchRequest)
+            //update the first list found
             if let listToUpdate = results.first {
                 if let newTitle = newTitle {
                     listToUpdate.title = newTitle
                 }
+                //try to save changes
                 try context.save()
                 print("List updated successfully")
                 return true
@@ -140,13 +149,17 @@ class CoreDataManager: ObservableObject{
     }
     
     func deleteList(withId id: String) {
+        //create fetch request for list with matching id
         let fetchRequest: NSFetchRequest<List> = List.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id == %@", id)
         
         do {
+            //delete first list found
             let lists = try container.viewContext.fetch(fetchRequest)
+            //attempt to delete first list found
             if let listToDelete = lists.first {
                 container.viewContext.delete(listToDelete)
+                //try to save changes
                 try container.viewContext.save()
                 print("List deleted successfully")
             }
@@ -155,11 +168,97 @@ class CoreDataManager: ObservableObject{
         }
     }
     
+    func deleteTask(withId id: String) {
+        let fetchRequest: NSFetchRequest<Task> = Task.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+        
+        do {
+            let task = try container.viewContext.fetch(fetchRequest)
+            if let taskToDelete = task.first {
+                container.viewContext.delete(taskToDelete)
+                try container.viewContext.save()
+                print("Task deleted successfully")
+            }
+        } catch {
+            print("Failed to delete task: \(error.localizedDescription)")
+        }
+    }
     
     
+    func saveTask(title: String, desc: String?, priority: Int, list: List) -> Task? {
+        let task = Task(context: context)
+        task.id = generateUniqueID() //assing unique id
+        task.title = title
+        task.desc = desc
+        task.priority = Int16(priority)
+        task.list = list //link task to specified list
+        task.status = false
+        
+        do {
+            try context.save()
+            print("Task saved successfully")
+            return task
+        } catch {
+            print("Failed to save task: \(error.localizedDescription)")
+            return nil
+        }
+    }
+    
+    
+    func updateTask(id: String, newTitle: String?, newDesc: String?, newPriority: Int?, newStatus: Bool?) -> Bool {
+        let fetchRequest: NSFetchRequest<Task> = Task.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+        
+        do{
+            let tasks = try context.fetch(fetchRequest)
+            
+            if let taskToUpdate = tasks.first {
+                if let newTitle = newTitle {
+                    taskToUpdate.title = newTitle
+                }
+                if let newDesc = newDesc {
+                    taskToUpdate.desc = newDesc
+                }
+                if let newPriority = newPriority {
+                    taskToUpdate.priority = Int16(newPriority)
+                }
+                if let newStatus = newStatus {
+                    taskToUpdate.status = newStatus
+                }
+                try context.save()
+                print("Task updated successfully")
+                return true
+            } else {
+                print("Task not found")
+                return false
+            }
+        } catch {
+            print("Failed to update task: \(error.localizedDescription)")
+            return false
+        }
+    }
+    
+    func fetchTasks(forListId listId: String) -> [Task] {
+        let fetchRequest: NSFetchRequest<Task> = Task.fetchRequest()
+        
+        fetchRequest.predicate = NSPredicate(format: "list.id == %@", listId)
+        
+        do{
+            let tasks = try context.fetch(fetchRequest)
+            return tasks
+        } catch {
+            print("Failed to fetch tasks for list with id \(listId): \(error.localizedDescription)")
+            return []
+        }
+    }
+    
+    //create unique UUID string
     func generateUniqueID() -> String {
         return UUID().uuidString
     }
+    
+    
+ 
     
     
 }

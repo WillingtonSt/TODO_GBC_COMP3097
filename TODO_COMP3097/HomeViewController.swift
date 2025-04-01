@@ -8,6 +8,7 @@ import UIKit
 
 class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
+    @IBOutlet weak var searchBar: UISearchBar!
     var newList: List?
     
     var lists: [List] = []
@@ -18,30 +19,40 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     @IBAction func createListButtonTapped(_ sender: UIButton) {
         if let email = UserDefaults.standard.string(forKey: "currentUserEmail"){
+            //Save List in CoreData with default name of "New List"
             let id = CoreDataManager.shared.saveList(title: "New List", email: email)
-            newList = CoreDataManager.shared.fetchList(withId: id)!
-            showAlert("New List Created"){
-                self.performSegue(withIdentifier: "showListsSegue", sender: self)
+            //Fetch List after saving it
+            if let savedList = CoreDataManager.shared.fetchList(withId: id) {
+                newList = savedList
+                
+                showAlert("New List Created"){
+                    self.performSegue(withIdentifier: "showListsSegue", sender: self)
+                }
             }
+            //Show an alert confirming List creation and then segue to ListView
+            
         } else {
+            //Popup of error if List creation fails
             showAlert("Error creating new list")
         }
             
     }
     
+    //Run this before segue occurs
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
+        //Ensure the correct segue is being performed
         if segue.identifier == "showListsSegue" {
             
-            if let navController = segue.destination as? UINavigationController {
-                if let destinationVC = navController.topViewController as? ListViewController {
-                    destinationVC.newList = newList
-                }
+            //Get destination view controller
+            if let destinationVC = segue.destination as? ListViewController {
+                destinationVC.newList = newList
             }
+            
         }
     }
     
-    
+    //generic function to display pop up messages
     func showAlert(_ message: String, completion: (() -> Void)? = nil) {
         let alert = UIAlertController(title: "Notice", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {_ in completion?()}))
@@ -55,7 +66,6 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ListCell", for: indexPath)
-        
         let list = lists[indexPath.row]
         cell.textLabel?.text = list.title
         
@@ -64,7 +74,9 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedList = lists[indexPath.row]
+        newList = selectedList
         print("Selected List: \(selectedList.title ?? "Unnamed List")")
+        performSegue(withIdentifier: "showListsSegue", sender: self)
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -72,7 +84,9 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
             let listToDelete = lists[indexPath.row]
             
             if let listId = listToDelete.id {
+                //Delete the list from CoreData by ID
                 CoreDataManager.shared.deleteList(withId: listId)
+                //Remove list from local array as well as table view
                 lists.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .fade)
             }
@@ -81,11 +95,12 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     
     override func viewDidLoad() {
+        //attempt to fetch email of the current user
         guard let currEmail = UserDefaults.standard.string(forKey: "currentUserEmail") else {
             showAlert("Error finding User Email")
             return
         }
-        
+        //fetch all lists from user with matching email
          lists = CoreDataManager.shared.fetchListsForCurrentUser(withEmail: currEmail)
         
         listContainer.dataSource = self
@@ -96,6 +111,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
     }
     
+    //reload the lists everytime this screen appears
     override func viewWillAppear(_ animated: Bool) {
         
         guard let currEmail = UserDefaults.standard.string(forKey: "currentUserEmail") else {
