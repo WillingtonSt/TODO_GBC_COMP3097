@@ -8,6 +8,7 @@ import UIKit
 
 class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
+    @IBOutlet weak var searchBar: UISearchBar!
     var newList: List?
     
     var lists: [List] = []
@@ -65,7 +66,6 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ListCell", for: indexPath)
-        
         let list = lists[indexPath.row]
         cell.textLabel?.text = list.title
         
@@ -74,7 +74,9 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedList = lists[indexPath.row]
+        newList = selectedList
         print("Selected List: \(selectedList.title ?? "Unnamed List")")
+        performSegue(withIdentifier: "showListsSegue", sender: self)
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {

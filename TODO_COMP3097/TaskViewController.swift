@@ -77,7 +77,8 @@ class TaskViewController: UIViewController {
             return
         }
         
-        let taskUpdateStatus = CoreDataManager.shared.updateTask(id: taskId, newTitle: title, newDesc: desc, newPriority: priority)
+        
+        let taskUpdateStatus = CoreDataManager.shared.updateTask(id: taskId, newTitle: title, newDesc: desc, newPriority: priority, newStatus: false)
         if (taskUpdateStatus) {
             showAlert("Task saved successfully"){
                 self.navigationController?.popViewController(animated: true)

@@ -294,6 +294,7 @@
                     <connections>
                         <outlet property="createListButton" destination="5xF-IJ-iqh" id="IJW-Fq-PP6"/>
                         <outlet property="listContainer" destination="r69-R5-aac" id="ecA-ZN-TK9"/>
+                        <outlet property="searchBar" destination="aTh-0P-d2t" id="YVD-eQ-pJw"/>
                         <outlet property="setReminderButton" destination="TsD-aP-2Ir" id="n87-It-eW6"/>
                         <segue destination="mzC-oQ-6x5" kind="show" identifier="showListsSegue" id="uWy-mF-O8n"/>
                     </connections>
@@ -480,6 +481,16 @@
                                 <rect key="frame" x="41" y="192" width="310" height="453"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TaskCell" id="jfR-XY-YnE">
+                                        <rect key="frame" x="0.0" y="50" width="310" height="51.666667938232422"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jfR-XY-YnE" id="JXu-FV-vwy">
+                                            <rect key="frame" x="0.0" y="0.0" width="310" height="51.666667938232422"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
                             </tableView>
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Z8x-SN-EgA">
                                 <rect key="frame" x="41" y="140" width="310" height="34"/>
@@ -530,6 +541,7 @@
                     <navigationItem key="navigationItem" id="Gbb-cZ-Vho"/>
                     <connections>
                         <outlet property="editButton" destination="yWq-QH-UzE" id="fpL-fA-Q5p"/>
+                        <outlet property="taskTable" destination="Xcv-1D-VwA" id="fwv-kc-g5F"/>
                         <outlet property="titleField" destination="Z8x-SN-EgA" id="YCo-xk-P8E"/>
                         <segue destination="e6I-ax-N6V" kind="show" identifier="taskViewSegue" id="8LQ-Hl-SnB"/>
                     </connections>
@@ -570,9 +582,10 @@
         </systemColor>
         <systemColor name="systemGray6Color">
             <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGreenColor">
-            <color red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="tableBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -581,7 +594,7 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="tertiarySystemGroupedBackgroundColor">
-            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

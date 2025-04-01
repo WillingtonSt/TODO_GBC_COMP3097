@@ -24,7 +24,6 @@ class CoreDataManager: ObservableObject{
         }
     }
     
-    
     func saveUser(name: String, email: String, password: String, salt: String){
         let user = User(context: context)
         user.name = name
@@ -52,7 +51,6 @@ class CoreDataManager: ObservableObject{
         }
     }
     
-   
     
     func fetchAllUsers() -> [User] {
         let fetchRequest: NSFetchRequest<User> = User.fetchRequest()
@@ -166,6 +164,21 @@ class CoreDataManager: ObservableObject{
         }
     }
     
+    func deleteTask(withId id: String) {
+        let fetchRequest: NSFetchRequest<Task> = Task.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+        
+        do {
+            let task = try container.viewContext.fetch(fetchRequest)
+            if let taskToDelete = task.first {
+                container.viewContext.delete(taskToDelete)
+                try container.viewContext.save()
+                print("Task deleted successfully")
+            }
+        } catch {
+            print("Failed to delete task: \(error.localizedDescription)")
+        }
+    }
     
     func saveTask(title: String, desc: String?, priority: Int, list: List) -> Task? {
         let task = Task(context: context)
@@ -187,7 +200,8 @@ class CoreDataManager: ObservableObject{
     }
     
     
-    func updateTask(id: String, newTitle: String?, newDesc: String?, newPriority: Int?) -> Bool {
+    func updateTask(id: String, newTitle: String?, newDesc: String?, newPriority: Int?, newStatus: Bool?) -> Bool {
+
         let fetchRequest: NSFetchRequest<Task> = Task.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id == %@", id)
         
@@ -204,6 +218,11 @@ class CoreDataManager: ObservableObject{
                 if let newPriority = newPriority {
                     taskToUpdate.priority = Int16(newPriority)
                 }
+
+                if let newStatus = newStatus {
+                    taskToUpdate.status = newStatus
+                }
+
                 try context.save()
                 print("Task updated successfully")
                 return true
