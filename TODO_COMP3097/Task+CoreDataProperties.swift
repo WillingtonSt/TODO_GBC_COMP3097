@@ -21,6 +21,7 @@ extension Task {
     @NSManaged public var priority: Int16
     @NSManaged public var id: String?
     @NSManaged public var list: List?
+    @NSManaged public var status: Bool
 
 }
 

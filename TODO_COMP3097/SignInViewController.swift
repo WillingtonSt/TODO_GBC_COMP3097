@@ -24,15 +24,15 @@ class SignInViewController: UIViewController {
             return
         }
         
-        
+        //fetch user with matching email
         if let user = CoreDataManager.shared.fetchUser(withEmail: email) {
-            let encodedSalt = user.salt
-            let salt = decodeSalt(from: encodedSalt)
+            let encodedSalt = user.salt  //retrieve salt that password was hashed with
+            let salt = decodeSalt(from: encodedSalt) //convert salt string back into bytes
             if salt.isEmpty {
                 showAlert( "Something went wrong!")
                 return
             }
-          
+            //hash the inputted password with the salt
             let hashedInput = hashPassword(password, salt: salt)
             
             
@@ -49,12 +49,13 @@ class SignInViewController: UIViewController {
         }
     }
     
+    //generic function for generating pop up messages
     func showAlert(_ message: String, completion: (() -> Void)? = nil) {
         let alert = UIAlertController(title: "Notice", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {_ in completion?()}))
         present(alert, animated: true)
     }
-    
+    //convert salt string back into bytes
     func decodeSalt(from encodedSalt: String?) -> Data {
         if let unwrappedSalt = encodedSalt {
             if let saltData = Data(base64Encoded: unwrappedSalt){
@@ -76,6 +77,10 @@ class SignInViewController: UIViewController {
     }
     
 
+    
+    @IBAction func unwindToSignIn(segue: UIStoryboardSegue) {
+        
+    }
     /*
     // MARK: - Navigation
 
