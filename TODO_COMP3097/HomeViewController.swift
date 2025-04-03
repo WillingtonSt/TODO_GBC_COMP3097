@@ -6,16 +6,19 @@
 //
 import UIKit
 
-class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
     
     @IBOutlet weak var searchBar: UISearchBar!
     var newList: List?
     
     var lists: [List] = []
+    var filteredLists: [List] = []
     
     @IBOutlet weak var listContainer: UITableView!
     @IBOutlet weak var setReminderButton: UIButton!
     @IBOutlet weak var createListButton: UIButton!
+    
+    var searchController: UISearchController!
     
     @IBAction func createListButtonTapped(_ sender: UIButton) {
         if let email = UserDefaults.standard.string(forKey: "currentUserEmail"){
@@ -59,21 +62,37 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         present(alert, animated: true)
     }
     
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        updateSearchResults(for: searchText)
+    }
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return lists.count
+        return filteredLists.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ListCell", for: indexPath)
-        let list = lists[indexPath.row]
+        let list = filteredLists[indexPath.row]
         cell.textLabel?.text = list.title
         
         return cell
     }
+    
+    func updateSearchResults(for searchText: String) {
+         if searchText.isEmpty {
+             filteredLists = lists
+         } else {
+             filteredLists = lists.filter {
+                 list in return list.title?.lowercased().contains(searchText.lowercased()) ?? false
+             }
+         }
+         
+         listContainer.reloadData()
+     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedList = lists[indexPath.row]
+        let selectedList = filteredLists[indexPath.row]
         newList = selectedList
         print("Selected List: \(selectedList.title ?? "Unnamed List")")
         performSegue(withIdentifier: "showListsSegue", sender: self)
@@ -81,12 +100,13 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let listToDelete = lists[indexPath.row]
+            let listToDelete = filteredLists[indexPath.row]
             
             if let listId = listToDelete.id {
                 //Delete the list from CoreData by ID
                 CoreDataManager.shared.deleteList(withId: listId)
                 //Remove list from local array as well as table view
+                lists.removeAll {$0.id == listId}
                 lists.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .fade)
             }
@@ -95,14 +115,17 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     
     override func viewDidLoad() {
+        
+       
+        searchBar.delegate = self
         //attempt to fetch email of the current user
         guard let currEmail = UserDefaults.standard.string(forKey: "currentUserEmail") else {
             showAlert("Error finding User Email")
             return
         }
         //fetch all lists from user with matching email
-         lists = CoreDataManager.shared.fetchListsForCurrentUser(withEmail: currEmail)
-        
+        lists = CoreDataManager.shared.fetchListsForCurrentUser(withEmail: currEmail)
+        filteredLists = lists
         listContainer.dataSource = self
         listContainer.delegate = self
         listContainer.reloadData()
@@ -119,7 +142,8 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
             return
         }
         
-         lists = CoreDataManager.shared.fetchListsForCurrentUser(withEmail: currEmail)
+        lists = CoreDataManager.shared.fetchListsForCurrentUser(withEmail: currEmail)
+        
         
         listContainer.dataSource = self
         listContainer.delegate = self
